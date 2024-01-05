@@ -1,0 +1,65 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "HealthComponent",
+"language": "GDScript",
+"path": "res://Ultility/HealthComp.gd"
+}, {
+"base": "Area2D",
+"class": "Hitbox",
+"language": "GDScript",
+"path": "res://Ultility/Hitbox.gd"
+}, {
+"base": "Area2D",
+"class": "HurtBox",
+"language": "GDScript",
+"path": "res://Ultility/Hurtbox.gd"
+}, {
+"base": "Node2D",
+"class": "Snake",
+"language": "GDScript",
+"path": "res://Snake/Snake.gd"
+}, {
+"base": "Node2D",
+"class": "SnakePart",
+"language": "GDScript",
+"path": "res://Snake/SnakePart.gd"
+} ]
+_global_script_class_icons={
+"HealthComponent": "",
+"Hitbox": "",
+"HurtBox": "",
+"Snake": "",
+"SnakePart": ""
+}
+
+[application]
+
+config/name="Snakeyshooter"
+run/main_scene="res://Game/Board.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Global.gd"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
