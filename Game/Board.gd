@@ -19,6 +19,8 @@ func get_input():
 	
 func _physics_process(delta): 
 	var input = get_input() 
+	if snake.powerup: 
+		snake.powerup.apply()
 	if input != Vector2.ZERO and $snaketimer.is_stopped(): 
 		snake.move(input) 
 		$snaketimer.start()

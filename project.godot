@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://Enemy/StaticEnemy.gd"
+}, {
+"base": "Node2D",
 "class": "HealthComponent",
 "language": "GDScript",
 "path": "res://Ultility/HealthComp.gd"
@@ -24,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Ultility/Hurtbox.gd"
 }, {
+"base": "Area2D",
+"class": "PowerUp",
+"language": "GDScript",
+"path": "res://PowerUp.gd"
+}, {
 "base": "Node2D",
 "class": "Snake",
 "language": "GDScript",
@@ -35,9 +45,11 @@ _global_script_classes=[ {
 "path": "res://Snake/SnakePart.gd"
 } ]
 _global_script_class_icons={
+"Enemy": "",
 "HealthComponent": "",
 "Hitbox": "",
 "HurtBox": "",
+"PowerUp": "",
 "Snake": "",
 "SnakePart": ""
 }
@@ -55,6 +67,14 @@ Global="*res://Global.gd"
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemy"
+2d_physics/layer_3="player_bullet"
+2d_physics/layer_4="enemy_bullet"
+2d_physics/layer_5="world"
 
 [physics]
 

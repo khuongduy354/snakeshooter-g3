@@ -1,4 +1,5 @@
 extends Node2D
+class_name Enemy
 
 export var max_health = 1
 export var damage = 1
@@ -45,7 +46,7 @@ func split_to_8_dir(dir:Vector2):
 	return result.normalized()
 	
 func shoot(): 
-	var bullet = preload("res://Ultility/Bullet.tscn").instance()
+	var bullet = preload("res://Ultility/EnemBullet.tscn").instance()
 	var dir = split_to_8_dir(global_position.direction_to(p.head_pos))
 	var pos = global_position + dir * Global.CELL_SIZE
 	bullet.set_dir(dir)

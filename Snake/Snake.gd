@@ -7,6 +7,7 @@ onready var parts = $parts
 onready var SnakePartScene = preload("res://Snake/SnakePart.tscn")
 onready var facing_dir = Vector2.UP
 var head_pos = Vector2.ZERO 
+var powerup: PowerUp = null 
 
 func pop_tail():
 	parts.get_child(0).queue_free()
@@ -71,14 +72,31 @@ func move(dir: Vector2):
 	push_head()
 #	sync_head()
 
-func pickup(enem): 
-	push_tail()
-#	sync_head() 
+
+func pickup(stuff): 
+	if stuff is PowerUp: 
+		stuff.connect("expire",self,"power_expired")
+		powerup = stuff
+	else: 
+		push_tail()
+func power_expired(): 
+	print("expired")
+	powerup = null
 	
-func shoot():
-	var bullet = preload("res://Ultility/Bullet.tscn").instance()
+func shoot(): 
+	if powerup: 
+		if powerup.power_type == PowerUp.PTypes.RAPID: 
+			default_shoot(3)
+		if powerup.power_type == PowerUp.PTypes.SPREAD: 
+			pass
+	else: 
+		default_shoot()
+		
+func default_shoot(speed_mul = 1):
+	var bullet = preload("res://Ultility/SnakeBullet.tscn").instance()
 	bullet.set_dir(facing_dir)
 	var bullet_pos = parts.get_child(parts.get_child_count()-1).global_position + Global.CELL_SIZE * facing_dir
+	bullet.speed *= speed_mul
 	
 	add_child(bullet) 
 	bullet.global_position = bullet_pos
