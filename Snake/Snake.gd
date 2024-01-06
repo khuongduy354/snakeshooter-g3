@@ -1,13 +1,33 @@
 extends Node2D
 class_name Snake
 
+signal die
+
 onready var parts = $parts
 onready var SnakePartScene = preload("res://Snake/SnakePart.tscn")
 onready var facing_dir = Vector2.UP
+var head_pos = Vector2.ZERO 
 
 func pop_tail():
 	parts.get_child(0).queue_free()
+	
+func _on_received_damage(hitbox:Hitbox): 
+	for i in range(hitbox.damage): 
+		if parts.get_child_count() == 0: 
+			emit_signal("die")
+			return
+		pop_tail()
 
+func add_part(part: SnakePart, gpos, is_head): 
+	part.connect("pickup",self,"pickup")
+	part.connect("received_damaged",self,"_on_received_damage")
+	parts.add_child(part)
+	part.global_position = gpos 
+	part.is_head = is_head
+
+	if is_head: 
+		head_pos = part.global_position
+	
 func push_head():
 	var prev_head = parts.get_child(parts.get_child_count()-1)
 	prev_head.is_head = false
@@ -15,11 +35,8 @@ func push_head():
 	var part = SnakePartScene.instance()
 	var pos = prev_head.global_position + facing_dir * Global.CELL_SIZE
 	part.set_head_dir(facing_dir)
-	part.connect("pickup",self,"pickup")
 
-	parts.add_child(part)
-	part.global_position=pos
-	part.is_head =  true
+	add_part(part,pos,true)
 	
 func push_tail():
 	var spawn_dir: Vector2
@@ -35,13 +52,9 @@ func push_tail():
 		spawn_pos = tail.global_position + spawn_dir.normalized() * Global.CELL_SIZE
 	
 	var new_tail = SnakePartScene.instance()
-	new_tail.connect("pickup",self,"pickup")
 	
-	parts.add_child(new_tail)
+	add_part(new_tail,spawn_pos,false)
 	parts.move_child(new_tail,0)
-	new_tail.global_position = spawn_pos
-	new_tail.is_head = false
-	
 
 #func sync_head(): 
 #	for part in parts.get_children(): 

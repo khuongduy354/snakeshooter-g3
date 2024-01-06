@@ -34,7 +34,12 @@ monitorable = false
 position = Vector2( 0, 1 )
 shape = SubResource( 1 )
 
+[node name="shoot" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
 [connection signal="receive_damaged" from="Hurtbox" to="." method="_on_Hurtbox_receive_damaged"]
 [connection signal="health_changed" from="HealthComp" to="." method="_on_HealthComp_health_changed"]
 [connection signal="area_entered" from="PickUp" to="." method="_on_PickUp_area_entered"]
 [connection signal="area_shape_entered" from="PickUp" to="." method="_on_PickUp_area_shape_entered"]
+[connection signal="timeout" from="shoot" to="." method="_on_shoot_timeout"]

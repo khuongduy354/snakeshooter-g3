@@ -2,6 +2,7 @@ extends Node2D
 class_name SnakePart 
 
 signal pickup 
+signal received_damage 
 
 export var is_head = true setget set_head
 
@@ -36,3 +37,7 @@ func adjust_head():
 	var dirs = [8,16,24,32]
 	head_s.region_rect.position.x = dirs[head_dir]
 
+
+
+func _on_HurtBox_receive_damaged(hitbox:Hitbox):
+	emit_signal("received_damage",hitbox)
