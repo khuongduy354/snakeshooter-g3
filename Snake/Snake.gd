@@ -6,6 +6,8 @@ signal die
 onready var parts = $parts
 onready var SnakePartScene = preload("res://Snake/SnakePart.tscn")
 onready var facing_dir = Vector2.UP
+onready var BulletScene = preload("res://Ultility/SnakeBullet.tscn")
+onready var animp = $AnimationPlayer
 var head_pos = Vector2.ZERO 
 var powerup: PowerUp = null 
 
@@ -75,11 +77,15 @@ func move(dir: Vector2):
 
 func pickup(stuff): 
 	if stuff is PowerUp: 
-		stuff.connect("expire",self,"power_expired")
+		if powerup: 
+			powerup.cleanup()
+			powerup.disconnect("expire",self,"power_expired")
 		powerup = stuff
+		powerup.connect("expire",self,"power_expired")
 	else: 
 		push_tail()
 func power_expired(): 
+	print(powerup.power_type)
 	print("expired")
 	powerup = null
 	
@@ -88,14 +94,39 @@ func shoot():
 		if powerup.power_type == PowerUp.PTypes.RAPID: 
 			default_shoot(3)
 		if powerup.power_type == PowerUp.PTypes.SPREAD: 
-			pass
+			spread_shoot() 
+		else: 
+			default_shoot()
 	else: 
 		default_shoot()
-		
+func spread_shoot(): 
+	var mbullet = BulletScene.instance()
+	var bullet1 = BulletScene.instance()
+	var bullet2 = BulletScene.instance()
+
+	
+	var dir1 = facing_dir.rotated(PI/4)
+	var dir2 = facing_dir.rotated(-PI/4)
+	mbullet.set_dir(facing_dir)
+	bullet1.set_dir(dir1)
+	bullet2.set_dir(dir2)
+	
+	var pos1 = head_pos + Global.CELL_SIZE * dir1 
+	var pos2 = head_pos + Global.CELL_SIZE * dir2
+	var mpos = head_pos + Global.CELL_SIZE * facing_dir
+	
+	add_child(mbullet)
+	add_child(bullet1)
+	add_child(bullet2)
+	
+	mbullet.global_position = mpos
+	bullet1.global_position = pos1 
+	bullet2.global_position = pos2 
+	
 func default_shoot(speed_mul = 1):
 	var bullet = preload("res://Ultility/SnakeBullet.tscn").instance()
 	bullet.set_dir(facing_dir)
-	var bullet_pos = parts.get_child(parts.get_child_count()-1).global_position + Global.CELL_SIZE * facing_dir
+	var bullet_pos = head_pos + Global.CELL_SIZE * facing_dir
 	bullet.speed *= speed_mul
 	
 	add_child(bullet) 

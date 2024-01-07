@@ -9,10 +9,14 @@ export var is_head = true setget set_head
 export(int, "up","left","down","right") var head_dir = 0
 onready var body_s = $Body
 onready var head_s = $Head
+onready var hurtbox = $HurtBox
 
 func pickup(enem): 
 	emit_signal("pickup",enem)
-	
+
+func set_hurtbox_enable(val:bool): 
+	hurtbox.monitorable = val 
+	hurtbox.monitoring = val
 func set_head(val):
 	is_head = val 
 	adjust_sprite()

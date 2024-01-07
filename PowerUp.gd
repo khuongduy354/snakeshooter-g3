@@ -10,7 +10,9 @@ enum PTypes{
 }
 export(int,"Invinc","Spread","Rapid") var power_type = 0
 export var timeout_duration = 0
+
 onready var sprite = $Sprite
+var snake = null 
 
 func _ready(): 
 	match power_type: 
@@ -29,14 +31,14 @@ func say_hi():
 	pass 
 func shoot(): 
 	pass
-func apply(): 
-	match power_type: 
-		PTypes.INVINC: 
-			pass
-		PTypes.SPREAD: 
-			pass
-		PTypes.RAPID: 
-			pass
+func _power_process(s): 
+	if s: 
+		snake = s
+	if power_type == PTypes.INVINC: 
+		for part in s.parts.get_children(): 
+			part.set_hurtbox_enable(false)
+			s.animp.play("flash")
+			# TODO: snake.animp.play("flash") 
 
 func _on_PowerUp_area_entered(area):
 	if area.is_in_group("snake"):
@@ -47,8 +49,19 @@ func _on_PowerUp_area_entered(area):
 		$Timer.wait_time = timeout_duration
 		$Timer.start()
 
-
+func cleanup(): 
+	if power_type == PTypes.INVINC and snake != null: 
+		if power_type == PTypes.INVINC: 
+			for part in snake.parts.get_children(): 
+				part.set_hurtbox_enable(true)
+				snake.parts.visible = true
+				snake.animp.stop()
+	if power_type == PTypes.RAPID: 
+		pass 
+	if power_type == PTypes.SPREAD: 
+		pass 
 func _on_Timer_timeout():
+	cleanup()
 	emit_signal("expire")
 	self.queue_free()
 	
