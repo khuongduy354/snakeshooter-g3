@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Game/Board.gd" type="Script" id=1]
 [ext_resource path="res://Snake/Snake.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Enemy/StaticEnemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Enemy/Enemy.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Snake/PowerUp/PowerUp.tscn" type="PackedScene" id=4]
 
 [node name="Board" type="Node2D"]
@@ -26,9 +26,11 @@ position = Vector2( 149, 67 )
 
 [node name="StaticEnemy2" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 182, 189 )
+enem_type = 1
 
 [node name="StaticEnemy3" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 301, 144 )
+enem_type = 2
 
 [node name="StaticEnemy4" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 308, 293 )

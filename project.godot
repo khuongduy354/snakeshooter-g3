@@ -12,7 +12,12 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Enemy",
 "language": "GDScript",
-"path": "res://Enemy/StaticEnemy.gd"
+"path": "res://Enemy/Enemy.gd"
+}, {
+"base": "Resource",
+"class": "EnemyStat",
+"language": "GDScript",
+"path": "res://Enemy/EnemyStat.gd"
 }, {
 "base": "Node2D",
 "class": "HealthComponent",
@@ -32,7 +37,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "PowerUp",
 "language": "GDScript",
-"path": "res://PowerUp.gd"
+"path": "res://Snake/PowerUp/PowerUp.gd"
 }, {
 "base": "Node2D",
 "class": "Snake",
@@ -46,6 +51,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Enemy": "",
+"EnemyStat": "",
 "HealthComponent": "",
 "Hitbox": "",
 "HurtBox": "",

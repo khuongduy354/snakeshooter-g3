@@ -1,7 +1,11 @@
 extends Area2D
 
 export var speed = 30 # tiles/sec
-export var damage = 1
+export var damage = 1 setget set_damage 
+
+func set_damage(val): 
+	damage = val 
+	$Hitbox.damage = damage 
 
 var dir = Vector2.ZERO 
 

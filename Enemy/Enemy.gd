@@ -1,18 +1,35 @@
 extends Node2D
 class_name Enemy
 
+enum EnemTypes{ 
+	LIGHT, DAME, TANK
+}
+export(int,"LIGHT","DAME","TANK") var enem_type = EnemTypes.LIGHT
 export var max_health = 1
-export var damage = 1
 export var die_frame = 43
+export var speed = 3
+export var damage = 1 
 
 onready var HPComp = $HealthComp
 onready var sprite = $Sprite
 var p: Snake = null
 
+func load_stat(): 
+	var res_paths = ["res://Enemy/LightEnemy.tres","res://Enemy/DameEnemy.tres","res://Enemy/TankEnemy.tres"]
+	var res = load(res_paths[enem_type]) as EnemyStat
+	max_health = res.max_health 
+	HPComp.max_health = max_health
+	HPComp.health = max_health
+	die_frame = res.die_frame 
+	sprite.texture = res.sprite
+	speed = res.speed
+	damage = res.damage
+
+func _ready():
+	load_stat()
 
 func _initialize_(_p:Snake): 
 	p = _p
-	
 
 func _on_HealthComp_health_changed(val):
 	if val <= 0: 
@@ -50,9 +67,11 @@ func shoot():
 	var dir = split_to_8_dir(global_position.direction_to(p.head_pos))
 	var pos = global_position + dir * Global.CELL_SIZE
 	bullet.set_dir(dir)
+	bullet.damage = damage 
 	
 	add_child(bullet)
 	bullet.global_position = pos 
+
 func _on_shoot_timeout():
 	if p: 
 		shoot()
