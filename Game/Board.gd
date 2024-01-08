@@ -1,6 +1,8 @@
 extends Node2D
 class_name Board 
 
+export var init_wait_time = 0.1 
+
 onready var snake = $Snake 
 onready var enemies = $Enemies
 onready var WaveSpawner = $WaveSpawner 
@@ -8,10 +10,16 @@ onready var WaveSpawner = $WaveSpawner
 func spawn_mob(em:Enemy): 
 	em._initialize_(snake)
 	enemies.add_child(em)
+
+func adjust_snake_speed(): 
+	var widx = WaveSpawner.curr_wave
+	var mul = 1 + widx * 5/100
+	$snaketimer.wait_time = init_wait_time * mul
 	
 func _ready(): 
 	WaveSpawner._initialize_(self)
 	WaveSpawner.start_next_wave()
+	WaveSpawner.connect("wave_changed",self,"_adjust_snake_speed")
 
 	
 

@@ -53,6 +53,11 @@ _global_script_classes=[ {
 "class": "SnakePart",
 "language": "GDScript",
 "path": "res://Snake/SnakePart.gd"
+}, {
+"base": "Node2D",
+"class": "WaveSpawner",
+"language": "GDScript",
+"path": "res://Game/WaveSpawner.gd"
 } ]
 _global_script_class_icons={
 "Board": "",
@@ -63,7 +68,8 @@ _global_script_class_icons={
 "HurtBox": "",
 "PowerUp": "",
 "Snake": "",
-"SnakePart": ""
+"SnakePart": "",
+"WaveSpawner": ""
 }
 
 [application]

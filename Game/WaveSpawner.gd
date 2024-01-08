@@ -1,5 +1,7 @@
 extends Node2D
+class_name WaveSpawner 
 
+signal wave_changed
 
 export var max_waves = 20
 export var spawn_wait_time_range = Vector2(2.0,5.0)
@@ -66,6 +68,7 @@ func start_next_wave():
 		print("You winned!")
 		return 
 	curr_wave += 1 
+	emit_signal("wave_changed",curr_wave)
 	update_wave_stats() 
 	_on_spawn_timeout()
 	
