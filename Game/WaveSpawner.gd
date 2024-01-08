@@ -40,12 +40,21 @@ func pick_mob():
 	enem.enem_type = type
 	
 	return enem
-	
-func spawn_mob(): 
+
+func pick_border_pos(): 
 	var x = rng.randi()%Global.width + Global.CELL_SIZE/2 
 	var y = rng.randi()%Global.height + Global.CELL_SIZE/2 
 	
-	var pos = Vector2(x,y)
+	var modified_x = rng.randi()%2
+	if modified_x == 1:
+		x = [0,Global.width*Global.CELL_SIZE][rng.randi()%2]
+	else: 
+		y = [0,Global.height*Global.CELL_SIZE][rng.randi()%2]
+	return Vector2(x,y)
+func spawn_mob(): 
+
+	
+	var pos = pick_border_pos() 
 	var mob = pick_mob()
 	b.spawn_mob(mob)
 	mob.global_position = pos 
