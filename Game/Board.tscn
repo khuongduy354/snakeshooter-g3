@@ -2,8 +2,8 @@
 
 [ext_resource path="res://Game/Board.gd" type="Script" id=1]
 [ext_resource path="res://Snake/Snake.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Enemy/Enemy.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Snake/PowerUp/PowerUp.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Game/WaveSpawner.tscn" type="PackedScene" id=5]
 
 [node name="Board" type="Node2D"]
 script = ExtResource( 1 )
@@ -15,23 +15,6 @@ wait_time = 0.1
 one_shot = true
 
 [node name="Enemies" type="Node2D" parent="."]
-
-[node name="StaticEnemy" parent="Enemies" instance=ExtResource( 3 )]
-position = Vector2( 149, 67 )
-
-[node name="StaticEnemy2" parent="Enemies" instance=ExtResource( 3 )]
-position = Vector2( 182, 189 )
-enem_type = 1
-
-[node name="StaticEnemy3" parent="Enemies" instance=ExtResource( 3 )]
-position = Vector2( 301, 144 )
-enem_type = 2
-
-[node name="StaticEnemy4" parent="Enemies" instance=ExtResource( 3 )]
-position = Vector2( 308, 293 )
-
-[node name="StaticEnemy5" parent="Enemies" instance=ExtResource( 3 )]
-position = Vector2( 458, 200 )
 
 [node name="PowerUps" type="Node2D" parent="."]
 
@@ -48,3 +31,5 @@ position = Vector2( 142, 118 )
 [node name="PowerUp4" parent="PowerUps" instance=ExtResource( 4 )]
 position = Vector2( 85, 203 )
 power_type = 2
+
+[node name="WaveSpawner" parent="." instance=ExtResource( 5 )]

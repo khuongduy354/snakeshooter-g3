@@ -1,0 +1,82 @@
+extends Node2D
+
+
+export var max_waves = 20
+export var spawn_wait_time_range = Vector2(2.0,5.0)
+export var wave_spawn_range = Vector2(2,4)
+
+var curr_wave = 0
+var curr_wave_mobs_mcount = 0
+var curr_wave_mobs_count = 0
+
+var rng = RandomNumberGenerator.new() 
+var b: Board = null
+export var types_percentage = { 
+	Enemy.EnemTypes.DAME: 20,
+	Enemy.EnemTypes.LIGHT: 50, 
+	Enemy.EnemTypes.TANK: 30,
+}
+# types percentage 
+# difficulties factor: mobs stats buff, mobs quans, snake speed, spawn continuality
+
+# curr_wave_mobs_count = wave * 1.5 + randi()% wave + 5
+
+func _initialize_(_b: Board): 
+	b = _b
+func _ready(): 
+	rng.randomize()
+	
+func pick_mob(): 
+	var type = null 
+	while type == null: 
+		var key_idx = rng.randi()%types_percentage.size()
+		var key = types_percentage.keys()[key_idx]
+		if Global.pick_on_percent(types_percentage[key]): 
+			type = key
+	
+	var enem = preload("res://Enemy/Enemy.tscn").instance()
+	enem.enem_type = type
+	
+	return enem
+	
+func spawn_mob(): 
+	var x = rng.randi()%Global.width + Global.CELL_SIZE/2 
+	var y = rng.randi()%Global.height + Global.CELL_SIZE/2 
+	
+	var pos = Vector2(x,y)
+	var mob = pick_mob()
+	b.spawn_mob(mob)
+	mob.global_position = pos 
+	curr_wave_mobs_count += 1 
+	
+func spawn_mobs(): 
+	var to_spawn_count = int(round(rand_range(wave_spawn_range.x, wave_spawn_range.y)))
+	var count = 0 
+	while count < to_spawn_count and curr_wave_mobs_count < curr_wave_mobs_mcount: 
+		spawn_mob() 
+		count+=1
+
+	
+func update_wave_stats(): 
+	curr_wave_mobs_mcount = int(round( curr_wave * 1.5 + rng.randi()%curr_wave + 5 ))
+	curr_wave_mobs_count = 0 
+
+func start_next_wave(): 
+	if curr_wave > max_waves: 
+		print("You winned!")
+		return 
+	curr_wave += 1 
+	update_wave_stats() 
+	_on_spawn_timeout()
+	
+	
+
+
+func _on_spawn_timeout():
+	if curr_wave_mobs_count < curr_wave_mobs_mcount: 
+		spawn_mobs()
+		$spawn.wait_time = rand_range(spawn_wait_time_range.x,spawn_wait_time_range.y)
+		$spawn.start()
+	else: 
+		print(curr_wave_mobs_mcount)
+		print("maxed reached")

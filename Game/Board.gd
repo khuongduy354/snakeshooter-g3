@@ -1,12 +1,19 @@
 extends Node2D
+class_name Board 
 
 onready var snake = $Snake 
 onready var enemies = $Enemies
+onready var WaveSpawner = $WaveSpawner 
 
-
+func spawn_mob(em:Enemy): 
+	em._initialize_(snake)
+	enemies.add_child(em)
+	
 func _ready(): 
-	for enem in enemies.get_children(): 
-		enem._initialize_(snake)
+	WaveSpawner._initialize_(self)
+	WaveSpawner.start_next_wave()
+
+	
 
 func get_input(): 
 	var input = Vector2.ZERO 
@@ -24,8 +31,13 @@ func _physics_process(delta):
 	var input = get_input() 
 	if snake.powerup != null: 
 		snake.powerup._power_process(snake)
-	if input != Vector2.ZERO and $snaketimer.is_stopped(): 
-		snake.move(input) 
-		$snaketimer.start()
+	move_snake(input) 
+
 	if Input.is_action_just_pressed("ui_accept"): 
 		snake.shoot()
+func move_snake(input: Vector2): 
+	if input == Vector2.ZERO: 
+		input = snake.facing_dir
+	if $snaketimer.is_stopped(): 
+		snake.move(input) 
+		$snaketimer.start()
