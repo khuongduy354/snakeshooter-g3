@@ -2,9 +2,12 @@ extends Node2D
 
 onready var snake = $Snake 
 onready var enemies = $Enemies
+
+
 func _ready(): 
 	for enem in enemies.get_children(): 
 		enem._initialize_(snake)
+
 func get_input(): 
 	var input = Vector2.ZERO 
 	if Input.is_action_pressed("ui_right"):

@@ -11,6 +11,7 @@ onready var animp = $AnimationPlayer
 var head_pos = Vector2.ZERO 
 var powerup: PowerUp = null 
 
+
 func pop_tail():
 	parts.get_child(0).queue_free()
 	
@@ -70,6 +71,8 @@ func move(dir: Vector2):
 	if dir == -facing_dir and parts.get_child_count() > 1: 
 		return
 	facing_dir = dir
+	if Global.is_border(head_pos + Global.CELL_SIZE * facing_dir): 
+		return
 	pop_tail()
 	push_head()
 #	sync_head()

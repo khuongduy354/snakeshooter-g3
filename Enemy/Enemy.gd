@@ -65,7 +65,7 @@ func split_to_8_dir(dir:Vector2):
 			min_angle = dir.angle_to(expected_dir)
 	
 	return result.normalized()
-	
+
 func shoot(): 
 	var bullet = preload("res://Ultility/EnemBullet.tscn").instance()
 	var dir = split_to_8_dir(global_position.direction_to(p.head_pos))
@@ -75,19 +75,38 @@ func shoot():
 	
 	add_child(bullet)
 	bullet.global_position = pos 
+	
 
 func _on_shoot_timeout():
 	if p: 
 		shoot()
+	if enem_type == EnemTypes.DAME: 
+		yield(get_tree().create_timer(.3),"timeout")
+		shoot() 
+		yield(get_tree().create_timer(.3),"timeout")
+		shoot() 
 
 func move(): 
 	var dirs = [Vector2.UP, Vector2.DOWN,Vector2.LEFT,Vector2.RIGHT, Vector2(-1,-1),Vector2(-1,1),Vector2(1,-1),Vector2(1,1)]
 	var dir = dirs[rng.randi()%8]
+	var newpos = global_position+dir*Global.CELL_SIZE
+	
+	var max_tries = 20
+	var tries = 0
+	while Global.is_border(newpos) and tries <= max_tries: 
+		dir = dirs[rng.randi()%8]
+		newpos = global_position+dir*Global.CELL_SIZE
+		tries+=1
+	if tries >= max_tries: 
+		print("Stuck")
+		return 
+	
 	var distance = randi()%max_distance+1
 	
 	while distance >=1: 
-		global_position+= dir * Global.CELL_SIZE
+		global_position = newpos
 		distance-=1
+		
 func _on_move_timeout():
 	$move.wait_time = 1.0/speed 
 	move()
