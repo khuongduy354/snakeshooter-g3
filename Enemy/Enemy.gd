@@ -7,14 +7,22 @@ enum EnemTypes{
 export(int,"LIGHT","DAME","TANK") var enem_type = EnemTypes.LIGHT
 export var max_health = 1
 export var die_frame = 43
-export var speed = 3
+export var change_dir_interval = 5
+export var speed = 1
 export var damage = 1 
-export var max_distance = 3 
 
 onready var HPComp = $HealthComp
 onready var sprite = $Sprite
+onready var animp = $AnimationPlayer 
 var p: Snake = null
 var rng = RandomNumberGenerator.new() 
+
+var dir = Vector2.RIGHT
+var curr_anim = "walk"
+var death = false 
+func play_anim(_curr_anim): 
+	curr_anim = _curr_anim
+	animp.play(curr_anim)
 
 func load_stat(): 
 	var res_paths = ["res://Enemy/LightEnemy.tres","res://Enemy/DameEnemy.tres","res://Enemy/TankEnemy.tres"]
@@ -31,19 +39,25 @@ func load_stat():
 func _ready():
 	rng.randomize()
 	load_stat()
+	play_anim("walk")
+	$change_dir.wait_time = change_dir_interval
 
 func _initialize_(_p:Snake): 
 	p = _p
 
 func _on_HealthComp_health_changed(val):
-	if val <= 0: 
+	if val <= 0 and !death: 
 		die()
 		
 func die(): 
+	death = true 
+	$move.stop()
+	play_anim("die")
 	sprite.frame = die_frame
 	$Hurtbox.set_enable(false)
 	$PickUp.monitorable = true
 	$PickUp.monitoring = true
+	$shoot.stop()
 
 func _on_PickUp_area_entered(area):
 	if area.is_in_group("snake"): 
@@ -51,22 +65,24 @@ func _on_PickUp_area_entered(area):
 		self.queue_free()
 
 
-func _on_Hurtbox_receive_damaged(hitbox):
-	HPComp.health -= hitbox.damage 
-	
+
 func split_to_8_dir(dir:Vector2): 
 	var dirs = [Vector2.UP, Vector2.DOWN,Vector2.LEFT, Vector2.RIGHT, Vector2(-1,-1),Vector2(-1,1), Vector2(1,-1),Vector2(1,1)]
+	dir = dir.normalized()
 	var result = dirs[0]
-	var min_angle = dir.angle_to(dirs[0])
+	var min_angle = abs(dir.angle_to(dirs[0]))
 	
 	for expected_dir in dirs: 
-		if dir.angle_to(expected_dir) < min_angle: 
+		if abs(dir.angle_to(expected_dir)) < min_angle: 
 			result = expected_dir 
-			min_angle = dir.angle_to(expected_dir)
+			min_angle = abs( dir.angle_to(expected_dir))
 	
 	return result.normalized()
 
+		
 func shoot(): 
+#	animp.play("shoot")
+#	play_anim("shoot")
 	var bullet = preload("res://Ultility/EnemBullet.tscn").instance()
 	var dir = split_to_8_dir(global_position.direction_to(p.head_pos))
 	var pos = global_position + dir * Global.CELL_SIZE
@@ -85,28 +101,34 @@ func _on_shoot_timeout():
 		shoot() 
 		yield(get_tree().create_timer(.3),"timeout")
 		shoot() 
+func pick_dir(): 
+	var dirs = [Vector2.UP, Vector2.DOWN,Vector2.LEFT,Vector2.RIGHT, Vector2(-1,-1),Vector2(-1,1),Vector2(1,-1),Vector2(1,1)]
+	return  dirs[rng.randi()%8] 
 
 func move(): 
-	var dirs = [Vector2.UP, Vector2.DOWN,Vector2.LEFT,Vector2.RIGHT, Vector2(-1,-1),Vector2(-1,1),Vector2(1,-1),Vector2(1,1)]
-	var dir = dirs[rng.randi()%8]
 	var newpos = global_position+dir*Global.CELL_SIZE
 	
 	var max_tries = 20
 	var tries = 0
-	while Global.is_border(newpos) and tries <= max_tries: 
-		dir = dirs[rng.randi()%8]
+	while Global.is_out_border(newpos) and tries <= max_tries: 
+		dir = pick_dir() 
 		newpos = global_position+dir*Global.CELL_SIZE
 		tries+=1
 	if tries >= max_tries: 
 		print("Stuck")
 		return 
 	
-	var distance = randi()%max_distance+1
 	
-	while distance >=1: 
-		global_position = newpos
-		distance-=1
+	global_position = newpos
 		
 func _on_move_timeout():
-	$move.wait_time = 1.0/speed 
+	$move.wait_time = 1/speed 
 	move()
+
+func _on_Hurtbox_receive_damage(hitbox):
+	HPComp.health -= hitbox.damage 
+	
+
+
+func _on_change_dir_timeout():
+	dir = pick_dir()

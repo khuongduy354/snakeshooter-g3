@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Ultility/HealthComp.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Enemy/Enemy.gd" type="Script" id=2]
@@ -7,6 +7,68 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 21, 16 )
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 24 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "die"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 41, 42, 43 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "shoot"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 21, 22, 23 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "walk"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 24, 29 ]
+}
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource( 2 )
@@ -38,13 +100,24 @@ autostart = true
 texture = ExtResource( 3 )
 hframes = 10
 vframes = 5
+frame = 24
 
 [node name="move" type="Timer" parent="."]
 autostart = true
 
-[connection signal="receive_damaged" from="Hurtbox" to="." method="_on_Hurtbox_receive_damaged"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 2 )
+anims/die = SubResource( 5 )
+anims/shoot = SubResource( 4 )
+anims/walk = SubResource( 3 )
+
+[node name="change_dir" type="Timer" parent="."]
+autostart = true
+
+[connection signal="receive_damage" from="Hurtbox" to="." method="_on_Hurtbox_receive_damage"]
 [connection signal="health_changed" from="HealthComp" to="." method="_on_HealthComp_health_changed"]
 [connection signal="area_entered" from="PickUp" to="." method="_on_PickUp_area_entered"]
 [connection signal="area_shape_entered" from="PickUp" to="." method="_on_PickUp_area_shape_entered"]
 [connection signal="timeout" from="shoot" to="." method="_on_shoot_timeout"]
 [connection signal="timeout" from="move" to="." method="_on_move_timeout"]
+[connection signal="timeout" from="change_dir" to="." method="_on_change_dir_timeout"]
