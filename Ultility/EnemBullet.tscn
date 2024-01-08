@@ -3,6 +3,7 @@
 [ext_resource path="res://Ultility/Bullet.tscn" type="PackedScene" id=1]
 
 [node name="EnemBullet" instance=ExtResource( 1 )]
+collision_layer = 8
 
 [node name="Hitbox" parent="." index="2"]
 collision_layer = 8

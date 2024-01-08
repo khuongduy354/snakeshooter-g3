@@ -17,6 +17,7 @@ func pickup(enem):
 func set_hurtbox_enable(val:bool): 
 	hurtbox.monitorable = val 
 	hurtbox.monitoring = val
+	
 func set_head(val):
 	is_head = val 
 	adjust_sprite()
@@ -43,5 +44,6 @@ func adjust_head():
 
 
 
-func _on_HurtBox_receive_damaged(hitbox:Hitbox):
+
+func _on_HurtBox_receive_damage(hitbox):
 	emit_signal("received_damage",hitbox)

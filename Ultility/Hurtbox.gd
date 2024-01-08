@@ -1,11 +1,12 @@
 extends Area2D
 class_name HurtBox 
 
-signal receive_damaged
-
+signal receive_damage
+func _ready(): 
+	connect("area_entered",self,"_on_Hurtbox_area_entered")
 func _on_Hurtbox_area_entered(area):
 	if area is Hitbox: 
-		emit_signal("receive_damaged",area)
+		emit_signal("receive_damage",area)
 
 func set_enable(val: bool): 
 	monitorable = val

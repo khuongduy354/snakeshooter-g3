@@ -11,20 +11,23 @@ onready var animp = $AnimationPlayer
 var head_pos = Vector2.ZERO 
 var powerup: PowerUp = null 
 
+func _ready(): 
+	for part in parts.get_children(): 
+		part.connect("received_damage",self,"_on_received_damage")
 
 func pop_tail():
 	parts.get_child(0).queue_free()
 	
-func _on_received_damage(hitbox:Hitbox): 
+func _on_received_damage(hitbox): 
 	for i in range(hitbox.damage): 
-		if parts.get_child_count() == 0: 
-			emit_signal("die")
+		if parts.get_child_count() == 1: 
+			die()
 			return
 		pop_tail()
 
 func add_part(part: SnakePart, gpos, is_head): 
 	part.connect("pickup",self,"pickup")
-	part.connect("received_damaged",self,"_on_received_damage")
+	part.connect("received_damage",self,"_on_received_damage")
 	parts.add_child(part)
 	part.global_position = gpos 
 	part.is_head = is_head
@@ -38,9 +41,19 @@ func push_head():
 
 	var part = SnakePartScene.instance()
 	var pos = prev_head.global_position + facing_dir * Global.CELL_SIZE
+	
+	# check bites itself 
+	for _part in parts.get_children(): 
+		if _part.global_position == pos: 
+			die()
+			return 
 	part.set_head_dir(facing_dir)
 
 	add_part(part,pos,true)
+	
+func die(): 
+	emit_signal("die")
+	print("die")
 	
 func push_tail():
 	var spawn_dir: Vector2
@@ -71,7 +84,7 @@ func move(dir: Vector2):
 	if dir == -facing_dir and parts.get_child_count() > 1: 
 		return
 	facing_dir = dir
-	if Global.is_border(head_pos + Global.CELL_SIZE * facing_dir): 
+	if Global.is_out_border(head_pos + Global.CELL_SIZE * facing_dir): 
 		return
 	pop_tail()
 	push_head()

@@ -21,5 +21,7 @@ func move():
 	global_position += dir * Global.CELL_SIZE
 
 func _on_bullet_speed_timeout():
+	if Global.is_out_border(global_position): 
+		queue_free()
 	$bullet_speed.wait_time = (1.0/speed)    
 	move()
