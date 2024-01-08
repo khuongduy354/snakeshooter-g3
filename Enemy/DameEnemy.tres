@@ -9,7 +9,7 @@ region = Rect2( 10, 13, 616, 287 )
 
 [resource]
 script = ExtResource( 1 )
-max_health = 1
+max_health = 2
 speed = 1
 damage = 1
 sprite = SubResource( 1 )

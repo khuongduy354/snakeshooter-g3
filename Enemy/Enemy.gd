@@ -9,10 +9,12 @@ export var max_health = 1
 export var die_frame = 43
 export var speed = 3
 export var damage = 1 
+export var max_distance = 3 
 
 onready var HPComp = $HealthComp
 onready var sprite = $Sprite
 var p: Snake = null
+var rng = RandomNumberGenerator.new() 
 
 func load_stat(): 
 	var res_paths = ["res://Enemy/LightEnemy.tres","res://Enemy/DameEnemy.tres","res://Enemy/TankEnemy.tres"]
@@ -24,8 +26,10 @@ func load_stat():
 	sprite.texture = res.sprite
 	speed = res.speed
 	damage = res.damage
+	$move.wait_time = 1.0/speed
 
 func _ready():
+	rng.randomize()
 	load_stat()
 
 func _initialize_(_p:Snake): 
@@ -75,3 +79,15 @@ func shoot():
 func _on_shoot_timeout():
 	if p: 
 		shoot()
+
+func move(): 
+	var dirs = [Vector2.UP, Vector2.DOWN,Vector2.LEFT,Vector2.RIGHT, Vector2(-1,-1),Vector2(-1,1),Vector2(1,-1),Vector2(1,1)]
+	var dir = dirs[rng.randi()%8]
+	var distance = randi()%max_distance+1
+	
+	while distance >=1: 
+		global_position+= dir * Global.CELL_SIZE
+		distance-=1
+func _on_move_timeout():
+	$move.wait_time = 1.0/speed 
+	move()

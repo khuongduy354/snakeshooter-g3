@@ -39,8 +39,12 @@ texture = ExtResource( 3 )
 hframes = 10
 vframes = 5
 
+[node name="move" type="Timer" parent="."]
+autostart = true
+
 [connection signal="receive_damaged" from="Hurtbox" to="." method="_on_Hurtbox_receive_damaged"]
 [connection signal="health_changed" from="HealthComp" to="." method="_on_HealthComp_health_changed"]
 [connection signal="area_entered" from="PickUp" to="." method="_on_PickUp_area_entered"]
 [connection signal="area_shape_entered" from="PickUp" to="." method="_on_PickUp_area_shape_entered"]
 [connection signal="timeout" from="shoot" to="." method="_on_shoot_timeout"]
+[connection signal="timeout" from="move" to="." method="_on_move_timeout"]
