@@ -28,4 +28,11 @@ func _on_bullet_speed_timeout():
 
 
 func _on_Hitbox_landed():
+	explode() 
 	queue_free()
+	
+func explode(): 
+	var expl = preload("res://UI/Explosion1.tscn").instance()
+	get_tree().root.add_child(expl)
+	expl.global_position = global_position 
+	expl.emit()

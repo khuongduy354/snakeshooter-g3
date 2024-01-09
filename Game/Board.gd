@@ -20,7 +20,15 @@ func adjust_snake_speed():
 	var mul = 1 + widx * 5/100
 	$snaketimer.wait_time = init_wait_time * mul
 	
+func _on_snake_die(): 
+	$GameUI.show_announce("Game Over!")
+	get_tree().paused = true 
+	yield(get_tree().create_timer(3),"timeout")
+	get_tree().paused = false 
+	get_tree().change_scene("res://UI/GameOver.tscn")
+	
 func _ready(): 
+	snake.connect("die",self,"_on_snake_die")
 	WaveSpawner._initialize_(self)
 	$PowerUpSpawner._initialize_(self)
 	WaveSpawner.start_next_wave()

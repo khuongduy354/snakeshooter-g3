@@ -57,7 +57,6 @@ func push_head():
 	
 func die(): 
 	emit_signal("die")
-	print("die")
 	
 func push_tail():
 	var spawn_dir: Vector2
