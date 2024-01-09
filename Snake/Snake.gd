@@ -20,14 +20,15 @@ func _ready():
 	head_pos = head.global_position
 
 func pop_tail():
-	parts.get_child(0).queue_free()
-	
+	var tail = parts.get_child(0)
+	tail.queue_free()
 func _on_received_damage(hitbox): 
 	for i in range(hitbox.damage): 
 		if parts.get_child_count() == 1: 
 			die()
 			return
-		pop_tail()
+		parts.get_child(0).white_flash()
+		
 
 func add_part(part: SnakePart, gpos, is_head): 
 	part.connect("pickup",self,"pickup")

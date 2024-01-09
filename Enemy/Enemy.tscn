@@ -1,12 +1,18 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Ultility/HealthComp.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Enemy/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://assets/LPC_Spiders/spider01.png" type="Texture" id=3]
 [ext_resource path="res://Ultility/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Ultility/whitening.gdshader" type="Shader" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 21, 16 )
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/damaged = false
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -70,6 +76,37 @@ tracks/0/keys = {
 "values": [ 24, 29 ]
 }
 
+[sub_resource type="Animation" id=9]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/damaged")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "white_flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/damaged")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, false ]
+}
+
 [node name="Enemy" type="Node2D"]
 script = ExtResource( 2 )
 
@@ -96,6 +133,7 @@ shape = SubResource( 1 )
 autostart = true
 
 [node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 7 )
 texture = ExtResource( 3 )
 hframes = 10
 vframes = 5
@@ -112,6 +150,10 @@ anims/walk = SubResource( 3 )
 
 [node name="change_dir" type="Timer" parent="."]
 autostart = true
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 9 )
+anims/white_flash = SubResource( 8 )
 
 [connection signal="receive_damage" from="Hurtbox" to="." method="_on_Hurtbox_receive_damage"]
 [connection signal="health_changed" from="HealthComp" to="." method="_on_HealthComp_health_changed"]

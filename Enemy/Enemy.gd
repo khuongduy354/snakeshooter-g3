@@ -133,6 +133,7 @@ func _on_move_timeout():
 	move()
 
 func _on_Hurtbox_receive_damage(hitbox):
+	$AnimationPlayer2.play("white_flash")
 	HPComp.health -= hitbox.damage 
 	Global.emit_signal("enem_hit")
 	

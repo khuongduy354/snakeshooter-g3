@@ -42,7 +42,14 @@ func adjust_head():
 	head_s.region_rect.position.x = dirs[head_dir]
 
 
+func white_flash(): 
+	$AnimationPlayer2.play("white_flash")
 
 
 func _on_HurtBox_receive_damage(hitbox):
 	emit_signal("received_damage",hitbox)
+
+
+
+func _on_AnimationPlayer2_animation_finished(anim_name):
+	queue_free()
