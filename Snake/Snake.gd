@@ -103,6 +103,7 @@ func pickup(stuff):
 		powerup = stuff
 		powerup.connect("expire",self,"power_expired")
 	else: 
+		Sound.play("grow")
 		push_tail()
 func power_expired(): 
 	print(powerup.power_type)
@@ -110,6 +111,7 @@ func power_expired():
 	powerup = null
 	
 func shoot(): 
+	Sound.play("shoot")
 	if powerup: 
 		if powerup.power_type == PowerUp.PTypes.RAPID: 
 			default_shoot(3)

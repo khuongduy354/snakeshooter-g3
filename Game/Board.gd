@@ -21,6 +21,7 @@ func adjust_snake_speed():
 	$snaketimer.wait_time = init_wait_time * mul
 	
 func _on_snake_die(): 
+	Sound.play("gameover")
 	$GameUI.show_announce("Game Over!")
 	get_tree().paused = true 
 	yield(get_tree().create_timer(3),"timeout")
@@ -28,6 +29,7 @@ func _on_snake_die():
 	get_tree().change_scene("res://UI/GameOver.tscn")
 	
 func _ready(): 
+	Sound.play("theme")
 	snake.connect("die",self,"_on_snake_die")
 	WaveSpawner._initialize_(self)
 	$PowerUpSpawner._initialize_(self)
@@ -39,6 +41,7 @@ func _ready():
 	
 func _on_wave_cleared(widx): 
 	if widx < WaveSpawner.max_waves:
+		Sound.play("wave_clear")
 		$GameUI.show_announce("Wave Clear!")
 		$PowerUpSpawner.reset(WaveSpawner.curr_wave+1) 
 		yield(get_tree().create_timer(3),"timeout")
@@ -48,8 +51,7 @@ func _on_wave_cleared(widx):
 		$GameUI.hide_announce()
 		$PowerUpSpawner.start() 
 	else: 
-		print("you win!")
-	
+		get_tree().change_scene("res://UI/GameWin.tscn")
 func _score_gained_handler(add_score): 
 	$GameUI.set_score($GameUI.get_score()+add_score)
 	apply_score_effect(add_score)

@@ -1,0 +1,47 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/sfx/shoot.mp3" type="AudioStream" id=1]
+[ext_resource path="res://assets/sfx/hurt.mp3" type="AudioStream" id=2]
+[ext_resource path="res://assets/sfx/wave_clear.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/sfx/theme.mp3" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/grow.mp3" type="AudioStream" id=6]
+[ext_resource path="res://Ultility/Sound.gd" type="Script" id=8]
+[ext_resource path="res://assets/sfx/gameover.mp3" type="AudioStream" id=9]
+
+[sub_resource type="AudioStreamSample" id=2]
+format = 1
+stereo = true
+
+[sub_resource type="AudioStreamSample" id=1]
+format = 1
+stereo = true
+
+[node name="Sound" type="Node2D"]
+script = ExtResource( 8 )
+
+[node name="shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+volume_db = 24.0
+
+[node name="grow" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+volume_db = 3.714
+
+[node name="snake_dir" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource( 2 )
+
+[node name="snake_shoot" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource( 1 )
+
+[node name="theme" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+volume_db = -3.714
+
+[node name="wave_clear" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="gameover" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
