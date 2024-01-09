@@ -73,7 +73,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("ui_accept"): 
 		snake.shoot()
 func move_snake(input: Vector2): 
-	if input == Vector2.ZERO: 
+	if input == Vector2.ZERO or input == -snake.facing_dir: 
 		input = snake.facing_dir
 	if $snaketimer.is_stopped(): 
 		snake.move(input) 

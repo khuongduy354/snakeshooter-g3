@@ -15,8 +15,7 @@ func pickup(enem):
 	emit_signal("pickup",enem)
 
 func set_hurtbox_enable(val:bool): 
-	hurtbox.monitorable = val 
-	hurtbox.monitoring = val
+	hurtbox.get_node("CollisionShape2D").set_deferred("disabled",!val)
 	
 func set_head(val):
 	is_head = val 
