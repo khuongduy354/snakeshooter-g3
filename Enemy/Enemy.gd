@@ -65,12 +65,14 @@ func die():
 	emit_signal("die")
 	Global.emit_signal("enem_killed")
 
+var picked = false
 func _on_PickUp_area_entered(area):
-	if area.is_in_group("snake"): 
+	if area.is_in_group("snake") and !picked: 
 		area.owner.pickup(self)
 		Global.emit_signal("enem_eaten")
 		self.queue_free()
 		$PickUp/CollisionShape2D2.set_deferred("disabled",true)
+		picked = true
 
 
 

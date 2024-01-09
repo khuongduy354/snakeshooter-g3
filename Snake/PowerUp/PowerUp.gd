@@ -38,7 +38,9 @@ func _power_process(s):
 	if power_type == PTypes.INVINC: 
 		for part in s.parts.get_children(): 
 			part.set_hurtbox_enable(false)
-			s.animp.play("flash")
+			part.modulate = Color.red
+			
+#			s.animp.play("flash")
 			# TODO: snake.animp.play("flash") 
 
 func _on_PowerUp_area_entered(area):
@@ -56,11 +58,12 @@ func cleanup():
 			for part in snake.parts.get_children(): 
 				part.set_hurtbox_enable(true)
 				snake.parts.visible = true
-				snake.animp.stop()
+				snake.modulate = Color.white
 	if power_type == PTypes.RAPID: 
 		pass 
 	if power_type == PTypes.SPREAD: 
 		pass 
+		
 func _on_Timer_timeout():
 	cleanup()
 	emit_signal("expire")

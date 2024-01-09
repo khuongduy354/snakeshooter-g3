@@ -27,7 +27,7 @@ func _on_received_damage(hitbox):
 		if parts.get_child_count() == 1: 
 			die()
 			return
-		pop_tail()
+		parts.get_child(0).white_flash()
 		
 
 func add_part(part: SnakePart, gpos, is_head): 

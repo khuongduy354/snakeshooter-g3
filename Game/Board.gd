@@ -40,7 +40,7 @@ func _ready():
 func _on_wave_cleared(widx): 
 	if widx < WaveSpawner.max_waves:
 		$GameUI.show_announce("Wave Clear!")
-		$PowerUpSpawner.reset() 
+		$PowerUpSpawner.reset(WaveSpawner.curr_wave+1) 
 		yield(get_tree().create_timer(3),"timeout")
 		$GameUI.show_announce("Wave Start!")
 		WaveSpawner.start_next_wave()

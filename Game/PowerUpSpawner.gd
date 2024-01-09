@@ -4,7 +4,7 @@ class_name PowerUpSpawner
 signal wave_changed
 
 export var spawn_interval = 5.0
-export var spawn_chance = 60
+export var spawn_chance = 80
 
 var curr_wave = 0
 var curr_wave_power_mcount = 3
@@ -28,9 +28,10 @@ func _initialize_(_b: Board):
 func start(): 
 	$spawn.start()
 
-func reset(): 
+func reset(widx): 
 	curr_wave_power_count = 0 
-	$spawn.stop() 
+	curr_wave_power_mcount = widx / 2 + 3 
+	$spawn.stop()  
 	
 func _ready(): 
 	rng.randomize()
