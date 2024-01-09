@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/Backgrounds/12.png" type="Texture" id=1]
 [ext_resource path="res://assets/Backgrounds/17.png" type="Texture" id=2]
 [ext_resource path="res://assets/Backgrounds/backgroundSpace_01.1.png" type="Texture" id=3]
-[ext_resource path="res://assets/Backgrounds/bkgd_4.png" type="Texture" id=4]
 [ext_resource path="res://assets/Backgrounds/14.png" type="Texture" id=5]
 [ext_resource path="res://assets/Backgrounds/11.png" type="Texture" id=6]
 [ext_resource path="res://assets/Backgrounds/10.png" type="Texture" id=7]
@@ -23,11 +22,6 @@ color = Color( 0.0901961, 0.0784314, 0.0784314, 1 )
 position = Vector2( 596, 318 )
 scale = Vector2( 0.305664, 0.174316 )
 texture = ExtResource( 10 )
-
-[node name="Bkgd4" type="Sprite" parent="."]
-position = Vector2( -2310, 7 )
-texture = ExtResource( 4 )
-centered = false
 
 [node name="BackgroundSpace011" type="Sprite" parent="."]
 visible = false

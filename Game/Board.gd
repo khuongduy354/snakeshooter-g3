@@ -25,9 +25,18 @@ func _ready():
 	$PowerUpSpawner._initialize_(self)
 	WaveSpawner.start_next_wave()
 	$PowerUpSpawner.start()
+	$ScoreSystem.connect("score_gained",self,"_score_gained_handler")
 	WaveSpawner.connect("wave_changed",self,"_adjust_snake_speed")
 
+func _score_gained_handler(add_score): 
+	$GameUI.set_score($GameUI.get_score()+add_score)
+	apply_score_effect(add_score)
 	
+func apply_score_effect(val): 
+	var effect = preload("res://UI/Effects.tscn").instance()
+	$Effects.add_child(effect)
+	effect.global_position = $effect_pos.global_position
+	effect.play_pop_score(val)
 
 func get_input(): 
 	var input = Vector2.ZERO 

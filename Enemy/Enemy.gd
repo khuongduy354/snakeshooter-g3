@@ -55,14 +55,17 @@ func die():
 	$move.stop()
 	play_anim("die")
 	sprite.frame = die_frame
-	$Hurtbox.set_enable(false)
+	$Hurtbox.monitoring = false 
+	$Hurtbox/CollisionShape2D.set_deferred("disabled",true)
 	$PickUp.monitorable = true
 	$PickUp.monitoring = true
 	$shoot.stop()
+	Global.emit_signal("enem_killed")
 
 func _on_PickUp_area_entered(area):
 	if area.is_in_group("snake"): 
 		area.owner.pickup(self)
+		Global.emit_signal("enem_eaten")
 		self.queue_free()
 
 
@@ -127,7 +130,9 @@ func _on_move_timeout():
 	move()
 
 func _on_Hurtbox_receive_damage(hitbox):
+	print("hit")
 	HPComp.health -= hitbox.damage 
+	Global.emit_signal("enem_hit")
 	
 
 

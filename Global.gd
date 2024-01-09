@@ -1,5 +1,10 @@
 extends Node
 
+signal enem_eaten
+signal enem_killed
+signal enem_hit
+signal wave_clear
+
 const CELL_SIZE = 8
 const width = 1024 /  CELL_SIZE 
 const height =  600 / CELL_SIZE 
