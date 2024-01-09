@@ -70,6 +70,7 @@ func _on_PickUp_area_entered(area):
 		area.owner.pickup(self)
 		Global.emit_signal("enem_eaten")
 		self.queue_free()
+		$PickUp/CollisionShape2D2.set_deferred("disabled",true)
 
 
 
