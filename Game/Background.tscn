@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/Backgrounds/12.png" type="Texture" id=1]
 [ext_resource path="res://assets/Backgrounds/17.png" type="Texture" id=2]
@@ -9,13 +9,20 @@
 [ext_resource path="res://assets/Backgrounds/10.png" type="Texture" id=7]
 [ext_resource path="res://assets/Backgrounds/20.png" type="Texture" id=8]
 [ext_resource path="res://Game/StarField.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/Nebula Aqua-Pink.png" type="Texture" id=10]
 
 [node name="ParallaxBackground" type="CanvasLayer"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 margin_right = 2170.0
 margin_bottom = 1695.0
 color = Color( 0.0901961, 0.0784314, 0.0784314, 1 )
+
+[node name="NebulaAqua-Pink" type="Sprite" parent="."]
+position = Vector2( 596, 318 )
+scale = Vector2( 0.305664, 0.174316 )
+texture = ExtResource( 10 )
 
 [node name="Bkgd4" type="Sprite" parent="."]
 position = Vector2( -2310, 7 )

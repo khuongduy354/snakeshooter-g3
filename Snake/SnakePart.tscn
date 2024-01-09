@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Snake/SnakePart.gd" type="Script" id=1]
-[ext_resource path="res://assets/snake.png" type="Texture" id=2]
+[ext_resource path="res://assets/snakesprites/png/snake_yellow_head_32.png" type="Texture" id=2]
 [ext_resource path="res://Ultility/Hurtbox.gd" type="Script" id=3]
+[ext_resource path="res://assets/snakesprites/png/snake_yellow_blob_32.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 4 )
@@ -11,13 +12,14 @@ extents = Vector2( 4, 4 )
 script = ExtResource( 1 )
 
 [node name="Body" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 4 )
 region_enabled = true
-region_rect = Rect2( 40, 24, 8, 8 )
+region_rect = Rect2( 0, 0, 32, 32 )
 
 [node name="Head" type="Sprite" parent="."]
+scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 2 )
-region_enabled = true
 region_rect = Rect2( 8, 24, 8, 8 )
 
 [node name="Area2D" type="Area2D" parent="." groups=["snake"]]

@@ -34,7 +34,7 @@ func _ready():
 func adjust_sprite(): 
 	body_s.visible = !is_head 
 	head_s.visible = is_head
-	adjust_head()
+#	adjust_head()
 	
 func adjust_head(): 
 	if !is_head:

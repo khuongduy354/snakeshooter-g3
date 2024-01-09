@@ -5,7 +5,7 @@ signal die
 
 onready var parts = $parts
 onready var SnakePartScene = preload("res://Snake/SnakePart.tscn")
-onready var facing_dir = Vector2.UP
+onready var facing_dir = Vector2.LEFT
 onready var BulletScene = preload("res://Ultility/SnakeBullet.tscn")
 onready var animp = $AnimationPlayer
 var head_pos = Vector2.ZERO 
@@ -14,6 +14,8 @@ var powerup: PowerUp = null
 func _ready(): 
 	for part in parts.get_children(): 
 		part.connect("received_damage",self,"_on_received_damage")
+		part.is_head = false
+	parts.get_child(parts.get_child_count()-1).is_head = true 
 
 func pop_tail():
 	parts.get_child(0).queue_free()
@@ -47,7 +49,7 @@ func push_head():
 		if _part.global_position == pos: 
 			die()
 			return 
-	part.set_head_dir(facing_dir)
+#	part.set_head_dir(facing_dir)
 
 	add_part(part,pos,true)
 	
