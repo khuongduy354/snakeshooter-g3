@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Game/Board.gd" type="Script" id=1]
 [ext_resource path="res://Snake/Snake.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Background.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Snake/PowerUp/PowerUp.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Game/WaveSpawner.tscn" type="PackedScene" id=5]
 
 [node name="Board" type="Node2D"]
@@ -18,20 +17,6 @@ one_shot = true
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="PowerUps" type="Node2D" parent="."]
-
-[node name="PowerUp" parent="PowerUps" instance=ExtResource( 4 )]
-position = Vector2( 67, 90 )
-
-[node name="PowerUp2" parent="PowerUps" instance=ExtResource( 4 )]
-position = Vector2( 82, 130 )
-power_type = 1
-
-[node name="PowerUp3" parent="PowerUps" instance=ExtResource( 4 )]
-position = Vector2( 142, 118 )
-
-[node name="PowerUp4" parent="PowerUps" instance=ExtResource( 4 )]
-position = Vector2( 85, 203 )
-power_type = 2
 
 [node name="WaveSpawner" parent="." instance=ExtResource( 5 )]
 

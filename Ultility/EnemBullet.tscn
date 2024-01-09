@@ -5,5 +5,8 @@
 [node name="EnemBullet" instance=ExtResource( 1 )]
 collision_layer = 8
 
+[node name="M484BulletCollection2" parent="." index="0"]
+region_rect = Rect2( 184, 107, 9, 9 )
+
 [node name="Hitbox" parent="." index="2"]
 collision_layer = 8
