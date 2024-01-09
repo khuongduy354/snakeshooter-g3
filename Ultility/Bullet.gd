@@ -25,3 +25,7 @@ func _on_bullet_speed_timeout():
 		queue_free()
 	$bullet_speed.wait_time = (1.0/speed)    
 	move()
+
+
+func _on_Hitbox_landed():
+	queue_free()

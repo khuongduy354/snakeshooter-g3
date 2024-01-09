@@ -25,3 +25,4 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [connection signal="timeout" from="bullet_speed" to="." method="_on_bullet_speed_timeout"]
+[connection signal="landed" from="Hitbox" to="." method="_on_Hitbox_landed"]

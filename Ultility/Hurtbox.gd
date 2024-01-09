@@ -7,6 +7,7 @@ func _ready():
 func _on_Hurtbox_area_entered(area):
 	if area is Hitbox: 
 		emit_signal("receive_damage",area)
+		area.landed()
 
 func set_enable(val: bool): 
 	monitorable = val
