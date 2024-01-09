@@ -21,7 +21,7 @@ export var types_percentage = {
 # types percentage 
 # difficulties factor: mobs stats buff, mobs quans, snake speed, spawn continuality
 
-# curr_wave_mobs_count = wave * 1.5 + randi()% wave + 5
+# curr_wave_mobs_count = wave * 1.5 + randi()%wave + 3
 
 func _initialize_(_b: Board): 
 	b = _b
@@ -61,7 +61,7 @@ func spawn_mob():
 	curr_wave_mobs_count += 1 
 	
 func spawn_mobs(): 
-	var to_spawn_count = int(round(rand_range(wave_spawn_range.x, wave_spawn_range.y)))
+	var to_spawn_count = rng.randi_range(wave_spawn_range.x, wave_spawn_range.y)
 	var count = 0 
 	while count < to_spawn_count and curr_wave_mobs_count < curr_wave_mobs_mcount: 
 		spawn_mob() 
@@ -69,7 +69,7 @@ func spawn_mobs():
 
 	
 func update_wave_stats(): 
-	curr_wave_mobs_mcount = int(round( curr_wave * 1.5 + rng.randi()%curr_wave + 5 ))
+	curr_wave_mobs_mcount = int(round( curr_wave * 1.5 + rng.randi()%curr_wave + 3 ))
 	curr_wave_mobs_count = 0 
 
 func start_next_wave(): 

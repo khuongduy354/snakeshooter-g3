@@ -26,6 +26,7 @@ func _ready():
 		PTypes.RAPID: 
 			sprite.frame = 8
 			timeout_duration = 5
+	$Timer.wait_time = timeout_duration
 
 func say_hi(): 
 	pass 

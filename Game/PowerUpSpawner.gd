@@ -3,8 +3,8 @@ class_name PowerUpSpawner
 
 signal wave_changed
 
-export var spawn_interval = 1.0
-export var spawn_chance = 100
+export var spawn_interval = 5.0
+export var spawn_chance = 60
 
 var curr_wave = 0
 var curr_wave_power_mcount = 3
