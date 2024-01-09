@@ -15,7 +15,9 @@ func _ready():
 	for part in parts.get_children(): 
 		part.connect("received_damage",self,"_on_received_damage")
 		part.is_head = false
-	parts.get_child(parts.get_child_count()-1).is_head = true 
+	var head = parts.get_child(parts.get_child_count()-1)
+	head.is_head = true 
+	head_pos = head.global_position
 
 func pop_tail():
 	parts.get_child(0).queue_free()
@@ -83,7 +85,7 @@ func push_tail():
 #	head.set_head_dir(facing_dir)
 	
 func move(dir: Vector2):
-	if dir == -facing_dir and parts.get_child_count() > 1: 
+	if dir == -facing_dir:
 		return
 	facing_dir = dir
 	if Global.is_out_border(head_pos + Global.CELL_SIZE * facing_dir): 
