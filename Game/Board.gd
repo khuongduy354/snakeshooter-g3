@@ -27,7 +27,21 @@ func _ready():
 	$PowerUpSpawner.start()
 	$ScoreSystem.connect("score_gained",self,"_score_gained_handler")
 	WaveSpawner.connect("wave_changed",self,"_adjust_snake_speed")
-
+	WaveSpawner.connect("wave_clear",self,"_on_wave_cleared")
+	
+func _on_wave_cleared(widx): 
+	if widx < WaveSpawner.max_waves:
+		$GameUI.show_announce("Wave Clear!")
+		$PowerUpSpawner.reset() 
+		yield(get_tree().create_timer(3),"timeout")
+		$GameUI.show_announce("Wave Start!")
+		WaveSpawner.start_next_wave()
+		yield(get_tree().create_timer(3),"timeout")
+		$GameUI.hide_announce()
+		$PowerUpSpawner.start() 
+	else: 
+		print("you win!")
+	
 func _score_gained_handler(add_score): 
 	$GameUI.set_score($GameUI.get_score()+add_score)
 	apply_score_effect(add_score)

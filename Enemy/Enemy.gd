@@ -1,6 +1,8 @@
 extends Node2D
 class_name Enemy
 
+signal die
+
 enum EnemTypes{ 
 	LIGHT, DAME, TANK
 }
@@ -60,6 +62,7 @@ func die():
 	$PickUp.monitorable = true
 	$PickUp.monitoring = true
 	$shoot.stop()
+	emit_signal("die")
 	Global.emit_signal("enem_killed")
 
 func _on_PickUp_area_entered(area):
@@ -130,7 +133,6 @@ func _on_move_timeout():
 	move()
 
 func _on_Hurtbox_receive_damage(hitbox):
-	print("hit")
 	HPComp.health -= hitbox.damage 
 	Global.emit_signal("enem_hit")
 	

@@ -27,6 +27,10 @@ func _initialize_(_b: Board):
 	
 func start(): 
 	$spawn.start()
+
+func reset(): 
+	curr_wave_power_count = 0 
+	$spawn.stop() 
 	
 func _ready(): 
 	rng.randomize()

@@ -2,6 +2,7 @@ extends Node2D
 class_name WaveSpawner 
 
 signal wave_changed
+signal wave_clear
 
 export var max_waves = 20
 export var spawn_wait_time_range = Vector2(2.0,5.0)
@@ -10,6 +11,7 @@ export var wave_spawn_range = Vector2(2,4)
 var curr_wave = 0
 var curr_wave_mobs_mcount = 0
 var curr_wave_mobs_count = 0
+var mobs_death = 0 
 
 var rng = RandomNumberGenerator.new() 
 var b: Board = null
@@ -57,9 +59,18 @@ func spawn_mob():
 	var pos = pick_border_pos() 
 	var mob = pick_mob()
 	b.spawn_mob(mob)
+	mob.connect("die",self,"_on_mob_die")
 	mob.global_position = pos 
 	curr_wave_mobs_count += 1 
 	
+func _on_mob_die(): 
+	print(mobs_death)
+	if mobs_death < curr_wave_mobs_mcount: 
+		mobs_death += 1
+	if mobs_death == curr_wave_mobs_mcount: 
+		emit_signal("wave_clear",curr_wave)
+		Global.emit_signal("wave_clear",curr_wave)
+
 func spawn_mobs(): 
 	var to_spawn_count = rng.randi_range(wave_spawn_range.x, wave_spawn_range.y)
 	var count = 0 
@@ -71,12 +82,15 @@ func spawn_mobs():
 func update_wave_stats(): 
 	curr_wave_mobs_mcount = int(round( curr_wave * 1.5 + rng.randi()%curr_wave + 3 ))
 	curr_wave_mobs_count = 0 
+	mobs_death = 0 
+	
 
 func start_next_wave(): 
 	if curr_wave > max_waves: 
 		print("You winned!")
 		return 
 	curr_wave += 1 
+	print("Current wave: ", curr_wave)
 	emit_signal("wave_changed",curr_wave)
 	update_wave_stats() 
 	_on_spawn_timeout()
@@ -89,6 +103,3 @@ func _on_spawn_timeout():
 		spawn_mobs()
 		$spawn.wait_time = rand_range(spawn_wait_time_range.x,spawn_wait_time_range.y)
 		$spawn.start()
-	else: 
-		print(curr_wave_mobs_mcount)
-		print("maxed reached")
