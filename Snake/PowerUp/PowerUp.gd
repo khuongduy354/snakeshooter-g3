@@ -18,10 +18,10 @@ func _ready():
 	match power_type: 
 		PTypes.INVINC: 
 			sprite.frame = 0
-			timeout_duration = 3
+			timeout_duration = 10 
 		PTypes.SPREAD: 
 			sprite.frame = 4 
-			timeout_duration = 3
+			timeout_duration = 5
 			
 		PTypes.RAPID: 
 			sprite.frame = 8

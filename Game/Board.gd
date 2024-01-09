@@ -5,11 +5,15 @@ export var init_wait_time = 0.1
 
 onready var snake = $Snake 
 onready var enemies = $Enemies
+onready var powerups = $PowerUps
 onready var WaveSpawner = $WaveSpawner 
 
 func spawn_mob(em:Enemy): 
 	em._initialize_(snake)
 	enemies.add_child(em)
+	
+func spawn_power(p: PowerUp): 
+	powerups.add_child(p)
 
 func adjust_snake_speed(): 
 	var widx = WaveSpawner.curr_wave
@@ -18,7 +22,9 @@ func adjust_snake_speed():
 	
 func _ready(): 
 	WaveSpawner._initialize_(self)
+	$PowerUpSpawner._initialize_(self)
 	WaveSpawner.start_next_wave()
+	$PowerUpSpawner.start()
 	WaveSpawner.connect("wave_changed",self,"_adjust_snake_speed")
 
 	

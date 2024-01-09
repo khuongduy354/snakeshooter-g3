@@ -36,7 +36,6 @@ func load_stat():
 	damage = res.damage
 	$move.wait_time = 1.0/speed
 	$shoot.wait_time = 20.0/damage
-	print($shoot.wait_time)
 
 func _ready():
 	rng.randomize()
