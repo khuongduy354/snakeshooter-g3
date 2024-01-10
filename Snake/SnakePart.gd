@@ -51,5 +51,3 @@ func _on_HurtBox_receive_damage(hitbox):
 
 
 
-func _on_AnimationPlayer2_animation_finished(anim_name):
-	queue_free()

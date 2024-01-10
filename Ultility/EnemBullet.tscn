@@ -4,7 +4,7 @@
 
 [node name="EnemBullet" instance=ExtResource( 1 )]
 collision_layer = 8
-speed = 15
+speed = 18
 
 [node name="M484BulletCollection2" parent="." index="0"]
 region_rect = Rect2( 184, 107, 9, 9 )

@@ -37,7 +37,8 @@ func load_stat():
 	speed = res.speed
 	damage = res.damage
 	$move.wait_time = 1.0/speed
-	$shoot.wait_time = 20.0/damage
+	$Hitbox.damage = res.damage
+	$shoot.wait_time = 15.0/damage
 
 func _ready():
 	rng.randomize()
@@ -59,6 +60,7 @@ func die():
 	sprite.frame = die_frame
 	$Hurtbox.monitoring = false 
 	$Hurtbox/CollisionShape2D.set_deferred("disabled",true)
+	$Hitbox/CollisionShape2D3.set_deferred("disabled",true)
 	$PickUp.monitorable = true
 	$PickUp.monitoring = true
 	$shoot.stop()

@@ -60,3 +60,9 @@ position = Vector2( 412, 324 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 1 )
 anims/flash = SubResource( 2 )
+
+[node name="invin" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="invin" to="." method="_on_invin_timeout"]

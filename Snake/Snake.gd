@@ -22,13 +22,22 @@ func _ready():
 func pop_tail():
 	var tail = parts.get_child(0)
 	tail.queue_free()
+var invin = false 
 func _on_received_damage(hitbox): 
+	if invin: 
+		return 
+
 	for i in range(hitbox.damage): 
 		if parts.get_child_count() == 1: 
 			die()
 			return
-		parts.get_child(0).white_flash()
-		
+		pop_tail()
+
+	invin = true 
+	if $invin.is_stopped():
+		$invin.start()
+	
+	
 
 func add_part(part: SnakePart, gpos, is_head): 
 	part.connect("pickup",self,"pickup")
@@ -153,3 +162,7 @@ func default_shoot(speed_mul = 1):
 	
 	add_child(bullet) 
 	bullet.global_position = bullet_pos
+
+
+func _on_invin_timeout():
+	invin = false 

@@ -80,7 +80,7 @@ func spawn_mobs():
 
 	
 func update_wave_stats(): 
-	curr_wave_mobs_mcount = int(round( curr_wave * 1.5 + rng.randi()%curr_wave + 3 ))
+	curr_wave_mobs_mcount = int(round( curr_wave * 3 + rng.randi()%curr_wave + 5 ))
 	curr_wave_mobs_count = 0 
 	mobs_death = 0 
 	
